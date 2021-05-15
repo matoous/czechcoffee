@@ -12,50 +12,6 @@ function CafeCard(props) {
           <h2 className={styles.cardName}>
             <a href={`/cafes/${props.r.id}`}>{props.r.name}</a>
           </h2>
-          <div>
-            <a href={props.r.website}>
-              <Globe/> Web
-            </a>
-          </div>
-          <div>
-            <a href={props.r.social.gm}>
-              <GeoAltFill/>{props.r.address}
-            </a>
-          </div>
-          {props.r.phone && (
-            <div>
-              <PhoneFill/> {props.r.phone}
-            </div>
-          )}
-          {props.r.email && (
-            <div>
-              <EnvelopeFill/> {props.r.email}
-            </div>
-          )}
-          {props.r.social && props.r.social.gm && (
-            <div>
-              <a href={props.r.social.gm}>
-                <GeoAltFill/> Zobrazit na Google Maps
-              </a>
-            </div>
-          )}
-          <div className={styles.cardLinks}>
-            {props.r.social && props.r.social.ig && (
-              <a href={props.r.social.ig}>
-                <Instagram/>
-              </a>
-            )}
-            {props.r.social && props.r.social.yt && (
-              <a href={props.r.social.yt}>
-                <Youtube/>
-              </a>
-            )}
-            {props.r.social && props.r.social.fb && (
-              <a href={props.r.social.fb}>
-                <Facebook/>
-              </a>
-            )}
-          </div>
         </a>
       </div>
       <style jsx>{`
@@ -70,15 +26,19 @@ function CafeCard(props) {
           height: 100%;
           width: 100%;
           padding: 1rem;
-          display: block;
           background-color: rgba(0, 0, 0, 0.5);
           transition: background-color .2s ease-in;
           color: white;
+          display: grid;
+          place-content: center;
         }
 
         .cafeCard:hover {
           background: rgba(0, 0, 0, 0.7);
-          text-decoration: none;
+        }
+
+        .cafeCard:hover h2 {
+          text-decoration: underline;
         }
       `}</style>
     </>

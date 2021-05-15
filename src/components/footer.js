@@ -27,9 +27,8 @@ const Footer = () => {
     </div>
     <style jsx>{`
       footer {
+        border-top: 1px solid black;
         width: 100%;
-        margin-top: 3rem;
-        border-top: 1px solid #eaeaea;
         font-size: .9em;
         min-height: 100px;
         padding: 1rem;

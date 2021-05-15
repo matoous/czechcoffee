@@ -3,9 +3,27 @@ import styles from "../../styles/Home.module.css";
 import Head from "next/head";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import {Cart, Facebook, GeoAltFill, Instagram, Map, PhoneFill, Youtube} from "react-bootstrap-icons";
+import {
+  Cart,
+  EnvelopeFill,
+  Facebook,
+  GeoAltFill,
+  Globe,
+  Instagram,
+  Map,
+  PhoneFill,
+  Youtube
+} from "react-bootstrap-icons";
+import ReactMapGL, {Marker} from "react-map-gl";
+import {useState} from "react";
 
 const Cafe = ({data}) => {
+  const [viewport, setViewport] = useState({
+    latitude: data.location.latitude,
+    longitude: data.location.longitude,
+    zoom: 10
+  });
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,8 +32,7 @@ const Cafe = ({data}) => {
       <Header active={"cafes"}/>
       <main className={styles.main}>
         <div className="cafe">
-          <div className="cafeImage">
-            <img src={data.image}/>
+          <div className="cafeImage" style={{backgroundImage: `url(${data.image})`}}>
           </div>
           <div className="cafeInfo">
             <h1>
@@ -35,10 +52,26 @@ const Cafe = ({data}) => {
             )}
             {data.phone && (
               <div>
-                <PhoneFill/> {data.phone}
+                <a href={`tel:${data.phone}`}>
+                  <PhoneFill/> {data.phone}
+                </a>
               </div>
             )}
-            <div>
+            {data.email && (
+              <div>
+                <a href={`mailto:${data.email}`}>
+                  <EnvelopeFill/> {data.email}
+                </a>
+              </div>
+            )}
+            {data.social && data.social.gm && (
+              <div>
+                <a href={data.social.gm}>
+                  <GeoAltFill/> Zobrazit na Google Maps
+                </a>
+              </div>
+            )}
+            <div className="socials">
               {data.social && data.social.ig && (
                 <a href={data.social.ig}><Instagram/></a>
               )}
@@ -50,32 +83,89 @@ const Cafe = ({data}) => {
               )}
             </div>
           </div>
+          <div className="map">
+            <ReactMapGL
+              {...viewport}
+              width="100%"
+              height="100%"
+              mapStyle="mapbox://styles/mapbox/light-v9"
+              mapboxApiAccessToken='pk.eyJ1IjoibWF0b3VzZHppdmphayIsImEiOiJjanJ6ZnNrZWcxODVmNDNsdjR0ZG41eGthIn0.IAfFFuE-66JoByTIphjV1A'
+              scrollZoom={false}
+              onViewportChange={(viewport) => {
+                const {width, height, latitude, longitude, zoom} = viewport;
+                setViewport({
+                  latitude: latitude,
+                  longitude: longitude,
+                  zoom: zoom
+                })
+              }}
+            >
+              <Marker latitude={data.location.latitude} longitude={data.location.longitude} offsetLeft={-21} offsetTop={-42}>
+                <img src={"/coffee_pin.png"} style={{'height': '42px', 'width': '42px'}} alt={"coffee pin"}/>
+              </Marker>
+            </ReactMapGL>
+          </div>
         </div>
       </main>
       <Footer/>
       <style jsx>{`
-        .cafe {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          width: 100%;
-        }
-
-        @media (max-width: 640px) {
-          .cafe {
-            grid-template-columns: 1fr;
-          }
-        }
-
         .cafeImage {
-
-        }
-
-        .cafeImage img {
-          width: 100%;
+          grid-area: cafeImage;
+          background-repeat: no-repeat;
+          background-size: cover;
         }
 
         .cafeInfo {
           padding: 1em;
+          grid-area: cafeInfo;
+          text-align: center;
+        }
+
+        .cafeInfo > div {
+          margin-bottom: 6px;
+        }
+
+        .socials {
+          margin-top: 16px;
+          font-size: 32px;
+        }
+
+        .socials > a {
+          margin-right: 8px;
+        }
+
+        .map {
+          grid-area: map;
+        }
+
+        .cafe {
+          justify-items: stretch;
+          display: grid;
+          height: 90vh;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+          border-left: 1px solid black;
+          border-top: 1px solid black;
+          grid-template-areas:
+            "cafeImage cafeInfo"
+            "cafeImage map";
+        }
+
+        .cafe > div {
+          border-bottom: 1px solid black;
+          border-right: 1px solid black;
+        }
+
+        @media (max-width: 640px) {
+          .cafe {
+            height: calc(3 * 380px);
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr  1fr;
+            grid-template-areas:
+              "cafeImage"
+              "cafeInfo"
+              "map";
+          }
         }
       `}</style>
     </div>

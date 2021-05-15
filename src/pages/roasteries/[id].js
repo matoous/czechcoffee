@@ -6,6 +6,7 @@ import Footer from "../../components/footer";
 import {Cart, Facebook, GeoAltFill, Instagram, Map, Youtube} from "react-bootstrap-icons";
 
 const Roastery = ({data}) => {
+  console.info(data)
   return (
     <div className={styles.container}>
       <Head>
@@ -57,6 +58,7 @@ const Roastery = ({data}) => {
       <style jsx>{`
         .roastery {
           display: grid;
+          height: 90vh;
           grid-template-columns: 1fr 1fr;
           width: 100%;
         }

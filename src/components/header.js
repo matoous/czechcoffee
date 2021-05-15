@@ -116,6 +116,7 @@ const Header = ({active}) => {
           flex-direction: row;
           width: 100%;
           align-items: center;
+          border-bottom: 1px solid black;
         }
 
         .searchWrap {

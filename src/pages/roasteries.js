@@ -16,7 +16,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.grid}>
           {roasteries && roasteries.map(r => (
-            <div className="card" key={r.name}>
+            <div className={styles.card} key={r.name}>
               <a className="roasteryCard" href={`/roasteries/${r.id}`}>
                 <div className={styles.cardImageWrap} style={{"backgroundImage": `url(${r.logo})`}}/>
                 <div>
@@ -58,12 +58,6 @@ export default function Home() {
       </main>
       <Footer/>
       <style jsx>{`
-        .card {
-          position: relative;
-          text-align: center;
-          border: 1px solid #eaeaea;
-        }
-
         .roasteryCard {
           height: 100%;
           width: 100%;
